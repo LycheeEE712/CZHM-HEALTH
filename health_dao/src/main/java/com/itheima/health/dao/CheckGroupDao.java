@@ -64,4 +64,26 @@ public interface CheckGroupDao {
      * @param id
      */
     void deleteCheckGroupCheckItem(Integer id);
+
+    /**
+     * 通过检查组id查询被套餐使用的个数
+     *
+     * @param id
+     * @return
+     */
+    int findCountByCheckGroupId(int id);
+
+    /**
+     * 通过id删除检查组
+     *
+     * @param id
+     */
+    void deleteById(int id);
+
+    /**
+     * 查询所有的检查组
+     *
+     * @return
+     */
+    List<CheckGroup> findAll();
 }

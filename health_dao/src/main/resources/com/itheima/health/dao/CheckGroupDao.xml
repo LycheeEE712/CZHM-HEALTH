@@ -48,4 +48,19 @@
     <delete id="deleteCheckGroupCheckItem" parameterType="int">
         delete from t_checkgroup_checkitem where checkgroup_id=#{id}
     </delete>
+
+    <!--通过id查询检查组被套餐使用的数量-->
+    <select id="findCountByCheckGroupId" parameterType="int" resultType="int">
+        select count(1) from t_setmeal_checkgroup where checkgroup_id=#{id}
+    </select>
+
+    <!--根据id删除检查组-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_checkgroup where id=#{id}
+    </delete>
+
+    <!--查询所有-->
+    <select id="findAll" resultType="checkgroup">
+        select * from t_checkgroup
+    </select>
 </mapper>
