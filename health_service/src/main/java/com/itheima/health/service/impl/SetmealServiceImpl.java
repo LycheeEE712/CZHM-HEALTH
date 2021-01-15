@@ -8,6 +8,8 @@ import com.itheima.health.dao.SetmealDao;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.exception.MyException;
+import com.itheima.health.pojo.CheckGroup;
+import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.pojo.Setmeal;
 import com.itheima.health.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,5 +125,57 @@ public class SetmealServiceImpl implements SetmealService {
         setmealDao.deleteSetmealCheckGroup(id);
         // 再删除套餐
         setmealDao.deleteById(id);
+    }
+
+    /**
+     * 查询套餐内所有图片
+     * @return
+     */
+    @Override
+    public List<String> findImgs() {
+        return setmealDao.findImgs();
+    }
+
+    /**
+     * 查询所有的套餐
+     * @return
+     */
+    @Override
+    public List<Setmeal> findAll() {
+        return setmealDao.findAll();
+    }
+
+    /**
+     * 通过id查询套餐详情
+     * @param id
+     * @return
+     */
+    @Override
+    public Setmeal findDetailById(int id) {
+        return setmealDao.findDetailById(id);
+    }
+
+    @Override
+    public Setmeal findDetailById2(int id) {
+        return setmealDao.findDetailById2(id);
+    }
+
+    @Override
+    public Setmeal findDetailById3(int id) {
+        // 查询套餐信息
+        Setmeal setmeal = setmealDao.findById(id);
+        // 查询套餐下的检查组
+        List<CheckGroup> checkGroups = setmealDao.findCheckGroupListBySetmealId(id);
+        if(null != checkGroups){
+            for (CheckGroup checkGroup : checkGroups) {
+                // 通过检查组id检查检查项列表
+                List<CheckItem> checkItems = setmealDao.findCheckItemByCheckGroupId(checkGroup.getId());
+                // 设置这个检查组下所拥有的检查项
+                checkGroup.setCheckItems(checkItems);
+            }
+            //设置套餐下的所拥有的检查组
+            setmeal.setCheckGroups(checkGroups);
+        }
+        return setmeal;
     }
 }
